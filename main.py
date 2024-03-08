@@ -12,21 +12,40 @@ class Visualizacao():
 
         raca = raca_nome.capitalize()
 
-        self.cursor.execute(f"SELECT nome_raca, descricao, idade, velocidade, alinhamento, medidas, hab_raciais FROM racas WHERE nome_raca = '{raca}'")
+        self.cursor.execute(f'''SELECT 
+                            nome_raca, 
+                            descricao, 
+                            idade, 
+                            velocidade, 
+                            alinhamento, 
+                            medidas, 
+                            hab_raciais,
+                            atributo,
+                            modificador
+                            FROM racas 
+                            INNER JOIN atributos_raciais 
+                            ON racas.id_raca = atributos_raciais.id_raca WHERE nome_raca = "{raca}"''')
 
-        info = self.cursor.fetchall()[0]
+        info = self.cursor.fetchall()
 
-        desc = info[1]
-        idade = info[2]
-        vel = info[3]
-        alinhamento = info[4]
-        med = info[5]
-        hab = info[6]
+        desc = info[0][1]
+        idade = info[0][2]
+        vel = info[0][3]
+        alinhamento = info[0][4]
+        med = info[0][5]
+        hab = info[0][6]
+        atr1 = info[0][7]
+        mod1 = info[0][8]
+        atr2 = info[1][7]
+        mod2 = info[1][8]
 
         t = f'''
 Raça: {raca}
+{atr1} +{mod1}, {atr2} +{mod2}
 
 Descrição: {desc}
+
+Idade: {idade}
 
 Velocidade: {vel}
 
@@ -38,3 +57,8 @@ Habilidades Raciais: {hab}
         '''
 
         return t
+
+
+
+
+
