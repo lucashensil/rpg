@@ -57,38 +57,49 @@ Habilidades Raciais: {hab}
         '''
 
         return t
-
-
-cursor.execute('SELECT id_raca FROM atributos_raciais WHERE atributo = "Destreza" ')
-ids = cursor.fetchall()
-consultas = []
-for id_ in ids:
-    id_raca = id_[0]
-
-    cursor.execute(f'''SELECT 
-                        nome_raca, 
-                        atributo,
-                        modificador
-                        FROM racas 
-                        INNER JOIN atributos_raciais 
-                        ON racas.id_raca = atributos_raciais.id_raca 
-                        WHERE atributos_raciais.id_raca = "{id_raca}" ''')
     
-    resultado = cursor.fetchall()
-    consultas.append(resultado)
-    
+    def buscar_atributo(self, atributo):
+
+        self.cursor.execute(f'SELECT id_raca FROM atributos_raciais WHERE atributo = "{atributo}" ')
+        ids = self.cursor.fetchall()
+        consultas = []
+        infos = []
+        for id_ in ids:
+            id_raca = id_[0]
+
+            self.cursor.execute(f'''SELECT 
+                                nome_raca, 
+                                atributo,
+                                modificador
+                                FROM racas 
+                                INNER JOIN atributos_raciais 
+                                ON racas.id_raca = atributos_raciais.id_raca 
+                                WHERE atributos_raciais.id_raca = "{id_raca}" ''')
+            
+            resultado = self.cursor.fetchall()
+            consultas.append(resultado)
+            
 
 
-for consulta in consultas:
-    if len(consulta) == 2:
-        item1, item2 = consulta
-        raca, atr1, valor1 = item1
-        raca, atr2, valor2 = item2
+        for consulta in consultas:
+            if len(consulta) == 2:
+                item1, item2 = consulta
+                raca, atr1, valor1 = item1
+                raca, atr2, valor2 = item2
+                
+                t = f'''Raca: {raca}, {atr1}: +{valor1}; {atr2}: +{valor2}'''
+                infos.append(t)
+                
+            
+            if len(consulta) == 1:
+                raca, atr1, valor1 = consulta[0]
+                t = f'''Raca: {raca}, {atr1}: +{valor1};'''
+                infos.append(t)
 
-        print(f'''Raca: {raca}, {atr1}: +{valor1}; {atr2}: +{valor2}''')
-    
-    if len(consulta) == 1:
-        raca, atr1, valor1 = consulta[0]
-        print(f'''Raca: {raca}, {atr1}: +{valor1};''')
+
+        info = '\n'.join(infos)
+        return info
+        
+
 
 
