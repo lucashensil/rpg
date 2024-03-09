@@ -17,6 +17,11 @@ class MyClient(discord.Client, Visualizacao):
             resposta = self.visu.visuzalizar_raca(nome)
             await message.channel.send(resposta)
 
+        if message.content.startswith(f'!Atributo'):
+            atr = message.content.split(' ', 1)[1]
+            resposta = self.visu.buscar_atributo(atr)
+            await message.channel.send(resposta)
+
 
 
 intents = discord.Intents.default()

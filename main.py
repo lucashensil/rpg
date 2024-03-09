@@ -102,4 +102,7 @@ Habilidades Raciais: {hab}
         
 
 
+# v = Visualizacao()
+# racas = v.buscar_atributo('Destreza')
 
+# print(racas)
