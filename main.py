@@ -7,7 +7,6 @@ class Visualizacao():
 
         self.cursor = self.conn.cursor()
 
-
     def visuzalizar_raca(self, raca_nome):
 
         raca = raca_nome.capitalize()
@@ -87,22 +86,31 @@ Habilidades Raciais: {hab}
                 raca, atr1, valor1 = item1
                 raca, atr2, valor2 = item2
                 
-                t = f'''Raca: {raca}, {atr1}: +{valor1}; {atr2}: +{valor2}'''
+                t = f'''Raça: {raca}, {atr1}: +{valor1}; {atr2}: +{valor2}'''
                 infos.append(t)
                 
             
             if len(consulta) == 1:
                 raca, atr1, valor1 = consulta[0]
-                t = f'''Raca: {raca}, {atr1}: +{valor1};'''
+                t = f'''Raça: {raca}, {atr1}: +{valor1};'''
                 infos.append(t)
 
 
         info = '\n'.join(infos)
         return info
-        
 
+    def buscar_habilidade(self, hab_procurada):
+            self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
 
-# v = Visualizacao()
-# racas = v.buscar_atributo('Destreza')
+            infos = []
+            consulta = self.cursor.fetchall()
+            for habs in consulta:
+                raca = habs[0]
+                for hab in habs:
+                    if hab_procurada in str(hab):
+                        t = f''' Raça: {raca}, Habilidades: {hab} '''
+                        infos.append(t)
 
-# print(racas)
+            info = '\n'.join(infos)
+
+            return(info)
