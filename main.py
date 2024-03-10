@@ -102,6 +102,7 @@ Habilidades Raciais: {hab}
     def buscar_habilidade(self, hab_procurada):
             self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
 
+
             infos = []
             consulta = self.cursor.fetchall()
             for habs in consulta:
@@ -114,3 +115,58 @@ Habilidades Raciais: {hab}
             info = '\n'.join(infos)
 
             return(info)
+    
+    def visualiar_classe(self, classe):
+        self.cursor.execute(f''' SELECT
+                    id_classe, 
+                    descricao, 
+                    dados_vida, 
+                    pontos_vida, 
+                    pontos_vida_superior, 
+                    proficiencias, 
+                    equipamento
+                    FROM classes
+                    WHERE nome_classe = "{classe}"
+                     ''')
+
+
+        info = self.cursor.fetchall()[0]
+        id_classe = info[0]
+        descricao = info[1]
+        dados_vida = info[2]
+        pontos_vida = info[3]
+        vida_superior = info[4]
+        proficiencias = info[5]
+
+        proficiencias = proficiencias.split(';')
+        p_armadura = proficiencias[0]
+        p_armas = proficiencias[1]
+        p_ferramentas = proficiencias[2]
+        p_resistencias = proficiencias[3]
+        p_pericias = proficiencias[4]
+
+        equipamento = info[6]
+
+
+        t = f''' 
+Classe: {classe}
+
+Descrição: 
+{descricao}
+
+Dados de Vida: {dados_vida}
+Pontos de Vida no 1º Nível: {pontos_vida}
+Pontos de Vida em Níveis Superiores: {vida_superior}
+
+Proficiências: 
+ {p_armadura}
+{p_armas}
+{p_ferramentas}
+{p_resistencias}
+{p_pericias}
+
+Equipamento Inicial:
+{equipamento}
+ '''
+        
+        return t

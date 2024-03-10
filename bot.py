@@ -27,6 +27,11 @@ class MyClient(discord.Client, Visualizacao):
             resposta = self.visu.buscar_habilidade(hab)
             await message.channel.send(resposta)
 
+        if message.content.startswith(f'!Classe'):
+            classe = message.content.split(' ', 1)[1]
+            resposta = self.visu.visualiar_classe(classe)
+            await message.channel.send(resposta)
+
 
 
 intents = discord.Intents.default()
