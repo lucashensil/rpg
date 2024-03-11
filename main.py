@@ -170,3 +170,29 @@ Equipamento Inicial:
  '''
         
         return t
+    
+    def visualizar_habs_raca(self, raca):
+        
+        self.cursor.execute(''' SELECT id_raca, nome_raca FROM racas''')
+        ids = self.cursor.fetchall()
+        for id_ in ids:
+            id_certo = id_[0]
+            nome = id_[1]
+            if nome == raca:
+                self.cursor.execute(f''' SELECT nome_recurso, descricao
+                                    FROM recursos_racas 
+                                    WHERE id_raca = {id_certo} ''')
+                info = self.cursor.fetchall()
+
+        msgs = []
+
+        for conteudo in info:
+            hab = conteudo[0]
+            desc = conteudo[1]
+            
+            msg = f'''{hab}: {desc}'''
+            msgs.append(msg)
+
+        t = '\n\n'.join(msgs)
+        
+        return t
