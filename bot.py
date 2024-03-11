@@ -14,15 +14,18 @@ class MyClient(discord.Client, Visualizacao):
 
         if message.content.startswith(f'!Raca'):
             nome = message.content.split(' ', 1)[1]
-            resposta = self.visu.visuzalizar_raca(nome)
-            await message.channel.send(resposta)
+            resposta1 = self.visu.visuzalizar_raca(nome)
+            resposta2 = self.visu.visualizar_habs_raca(nome)
+            await message.channel.send(resposta1)
+            await message.channel.send(resposta2)
+
 
         if message.content.startswith(f'!Atributo'):
             atr = message.content.split(' ', 1)[1]
             resposta = self.visu.buscar_atributo(atr)
             await message.channel.send(resposta)
 
-        if message.content.startswith(f'!Habilidade'):
+        if message.content.startswith(f'!Procurar Habilidade'):
             hab = message.content.split(' ', 1)[1]
             resposta = self.visu.buscar_habilidade(hab)
             await message.channel.send(resposta)

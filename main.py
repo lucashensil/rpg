@@ -194,5 +194,6 @@ Equipamento Inicial:
             msgs.append(msg)
 
         t = '\n\n'.join(msgs)
+
         
         return t
