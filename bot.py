@@ -1,7 +1,10 @@
 import discord
+import asyncio
+from discord.ext import commands
 from main import Visualizacao
 from credencias import token
 
+ultima_raca_solicitada = None  # Variável para armazenar o nome da última raça solicitada
 
 class MyClient(discord.Client, Visualizacao):
     async def on_ready(self):
@@ -13,11 +16,19 @@ class MyClient(discord.Client, Visualizacao):
             return
 
         if message.content.startswith(f'!Raca'):
+            global ultima_raca_solicitada
             nome = message.content.split(' ', 1)[1]
             resposta1 = self.visu.visuzalizar_raca(nome)
-            resposta2 = self.visu.visualizar_habs_raca(nome)
             await message.channel.send(resposta1)
-            await message.channel.send(resposta2)
+            ultima_raca_solicitada = nome  
+
+        if message.content.startswith(f'!Habilidades'):
+            if ultima_raca_solicitada:  
+                resposta2 = self.visu.visualizar_habs_raca(ultima_raca_solicitada)
+                await message.channel.send(resposta2)
+                ultima_raca_solicitada = None  
+            else:
+                await message.channel.send("Você não solicitou informações sobre nenhuma raça ainda.")
 
 
         if message.content.startswith(f'!Atributo'):
