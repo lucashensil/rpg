@@ -27,20 +27,19 @@ class Visualizacao():
 
         info = self.cursor.fetchall()
 
-        desc = info[0][1]
-        idade = info[0][2]
-        vel = info[0][3]
-        alinhamento = info[0][4]
-        med = info[0][5]
-        hab = info[0][6]
-        atr1 = info[0][7]
-        mod1 = info[0][8]
-        atr2 = info[1][7]
-        mod2 = info[1][8]
+        desc, idade, vel, alinhamento, med, hab, atr1, mod1 = info[0][1:9]
+
+        if len(info) > 1:
+            atr2, mod2 = info[1][7:9]
+            mod1 = str(mod1) + ','
+            mod2 = '+' + str(mod2)
+        else:
+            atr2 = ''
+            mod2 = ''
 
         t = f'''
 Raça: {raca}
-{atr1} +{mod1}, {atr2} +{mod2}
+{atr1} +{mod1} {atr2} {mod2}
 
 Descrição: {desc}
 
@@ -116,7 +115,7 @@ Habilidades Raciais: {hab}
 
             return(info)
     
-    def visualiar_classe(self, classe):
+    def visualizar_classe(self, classe):
         self.cursor.execute(f''' SELECT
                     id_classe, 
                     descricao, 
@@ -195,5 +194,5 @@ Equipamento Inicial:
 
         t = '\n\n'.join(msgs)
 
-        
+
         return t

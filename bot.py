@@ -43,7 +43,7 @@ class MyClient(discord.Client, Visualizacao):
 
         if message.content.startswith(f'!Classe'):
             classe = message.content.split(' ', 1)[1]
-            resposta = self.visu.visualiar_classe(classe)
+            resposta = self.visu.visualizar_classe(classe)
             await message.channel.send(resposta)
 
 
