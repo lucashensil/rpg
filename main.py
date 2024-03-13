@@ -8,7 +8,14 @@ class Visualizacao():
         self.cursor = self.conn.cursor()
 
     def visuzalizar_raca(self, raca_nome):
+        """Visualiza as informações de uma raça específica.
 
+        Args:
+            raca_nome (str): O nome da raça a ser visualizada.
+
+        Returns:
+            str: Uma string formatada contendo as informações da raça.
+        """
         raca = raca_nome.capitalize()
 
         self.cursor.execute(f'''SELECT 
@@ -57,6 +64,14 @@ Habilidades Raciais: {hab}
         return t
     
     def buscar_atributo(self, atributo):
+        """Busca as raças que possuem um atributo específico.
+
+        Args:
+            atributo (str): O atributo a ser buscado.
+
+        Returns:
+            str: Uma string contendo as raças e os atributos encontrados.
+        """
 
         self.cursor.execute(f'SELECT id_raca FROM atributos_raciais WHERE atributo = "{atributo}" ')
         ids = self.cursor.fetchall()
@@ -99,23 +114,39 @@ Habilidades Raciais: {hab}
         return info
 
     def buscar_habilidade(self, hab_procurada):
-            self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
+        """Busca raças que possuem uma habilidade específica.
+
+        Args:
+            hab_procurada (str): A habilidade a ser procurada.
+
+        Returns:
+            str: Uma string contendo as raças e habilidades correspondentes encontradas.
+        """
+        self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
 
 
-            infos = []
-            consulta = self.cursor.fetchall()
-            for habs in consulta:
-                raca = habs[0]
-                for hab in habs:
-                    if hab_procurada in str(hab):
-                        t = f''' Raça: {raca}, Habilidades: {hab} '''
-                        infos.append(t)
+        infos = []
+        consulta = self.cursor.fetchall()
+        for habs in consulta:
+            raca = habs[0]
+            for hab in habs:
+                if hab_procurada in str(hab):
+                    t = f''' Raça: {raca}, Habilidades: {hab} '''
+                    infos.append(t)
 
-            info = '\n'.join(infos)
+        info = '\n'.join(infos)
 
-            return(info)
+        return(info)
     
     def visualizar_classe(self, classe):
+        """Visualiza as informações de uma classe específica.
+
+        Args:
+            classe (str): O nome da classe a ser visualizada.
+
+        Returns:
+            str: Uma string formatada contendo as informações da classe.
+        """
         self.cursor.execute(f''' SELECT
                     id_classe, 
                     descricao, 
@@ -171,7 +202,14 @@ Equipamento Inicial:
         return t
     
     def visualizar_habs_raca(self, raca):
-        
+        """Visualiza as habilidades de uma raça específica.
+
+        Args:
+            raca (str): O nome da raça a ser visualizada.
+
+        Returns:
+            str: Uma string formatada contendo as habilidades da raça.
+        """
         self.cursor.execute(''' SELECT id_raca, nome_raca FROM racas''')
         ids = self.cursor.fetchall()
         for id_ in ids:
