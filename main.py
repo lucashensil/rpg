@@ -138,15 +138,19 @@ Habilidades Raciais: {hab}
         """
         self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
 
-
+        lista_habs = []
         infos = []
         consulta = self.cursor.fetchall()
         for habs in consulta:
             raca = habs[0]
-            for hab in habs:
-                if hab_procurada in str(hab):
-                    t = f''' Raça: {raca}, Habilidades: {hab} '''
-                    infos.append(t)
+            habilidades = habs[1].split(', ')
+            if hab_procurada in habilidades:
+                habilidades.remove(hab_procurada)
+                habilidades.insert(0, hab_procurada)
+                t = f''' Raça: {raca}, Habilidades: {', '.join(habilidades)} '''
+                infos.append(t)
+
+        
 
         info = '\n'.join(infos)
 
@@ -160,10 +164,12 @@ Habilidades Raciais: {hab}
         consulta = self.cursor.fetchall()
         for habs in consulta:
             subraca = habs[0]
-            for hab in habs:
-                if hab_procurada in str(hab):
-                    t = f''' Subraca: {subraca}, Habilidades: {hab} '''
-                    infos.append(t)
+            habilidades = habs[1].split(', ')
+            if hab_procurada in habilidades:
+                habilidades.remove(hab_procurada)
+                habilidades.insert(0, hab_procurada)
+                t = f''' Raça: {subraca}, Habilidades: {', '.join(habilidades)} '''
+                infos.append(t)
 
         info = '\n'.join(infos)
 
