@@ -150,7 +150,24 @@ Habilidades Raciais: {hab}
 
         info = '\n'.join(infos)
 
-        return(info)
+        return info
+    
+    def buscar_habilidade_subraca(self, hab_procurada):
+        self.cursor.execute('SELECT nome_subraca, hab_subraca FROM subracas')
+
+
+        infos = []
+        consulta = self.cursor.fetchall()
+        for habs in consulta:
+            subraca = habs[0]
+            for hab in habs:
+                if hab_procurada in str(hab):
+                    t = f''' Subraca: {subraca}, Habilidades: {hab} '''
+                    infos.append(t)
+
+        info = '\n'.join(infos)
+
+        return info
     
     def visualizar_classe(self, classe):
         """Visualiza as informações de uma classe específica.

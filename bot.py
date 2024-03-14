@@ -37,9 +37,11 @@ class MyClient(discord.Client, Visualizacao):
             await message.channel.send(resposta)
 
         if message.content.startswith(f'!Procurar Habilidade'):
-            hab = message.content.split(' ', 1)[1]
+            hab = message.content[len('!Procurar Habilidade '):]
             resposta = self.visu.buscar_habilidade(hab)
+            resposta2 = self.visu.buscar_habilidade_subraca(hab)
             await message.channel.send(resposta)
+            await message.channel.send(resposta2)
 
         if message.content.startswith(f'!Classe'):
             classe = message.content.split(' ', 1)[1]
