@@ -35,6 +35,7 @@ class Visualizacao():
         info = self.cursor.fetchall()
 
         desc, idade, vel, alinhamento, med, hab, atr1, mod1 = info[0][1:9]
+        subracas = self.buscar_subraca(raca_nome)
 
         if len(info) > 1:
             atr2, mod2 = info[1][7:9]
@@ -47,6 +48,7 @@ class Visualizacao():
         t = f'''
 Raça: {raca}
 {atr1} +{mod1} {atr2} {mod2}
+Sub-Raças: {subracas}
 
 Descrição: {desc}
 
@@ -63,6 +65,18 @@ Habilidades Raciais: {hab}
 
         return t
     
+    def buscar_subraca(self, raca):
+        self.cursor.execute(f'SELECT nome_subraca FROM subracas INNER JOIN racas on subracas.id_raca = racas.id_raca WHERE nome_raca = "{raca}"')
+
+        subracas = self.cursor.fetchall()
+        infos = []
+        for sub in subracas:
+            t = f'{sub[0]}'
+            infos.append(t)
+
+        info = ', '.join(infos)
+        return info
+
     def buscar_atributo(self, atributo):
         """Busca as raças que possuem um atributo específico.
 
