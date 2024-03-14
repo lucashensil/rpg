@@ -40,8 +40,14 @@ class MyClient(discord.Client, Visualizacao):
             hab = message.content[len('!Procurar Habilidade '):]
             resposta = self.visu.buscar_habilidade(hab)
             resposta2 = self.visu.buscar_habilidade_subraca(hab)
-            await message.channel.send(resposta)
-            await message.channel.send(resposta2)
+            if resposta:
+                await message.channel.send(resposta)
+            else:
+                await message.channel.send('Habilidade não encontrada em nenhuma raça')
+            if resposta2:
+                await message.channel.send(resposta2)
+            elif not resposta and not resposta2:
+                await message.channel.send('Habilidade não encontrada em nenhuma sub-raça')
 
         if message.content.startswith(f'!Classe'):
             classe = message.content.split(' ', 1)[1]
