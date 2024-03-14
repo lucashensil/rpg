@@ -234,10 +234,23 @@ Proficiências:
 
 Equipamento Inicial:
 {equipamento}
+
+Sub-Classes:
+{self.buscar_subclasses(classe)}
  '''
         
         return t
     
+    def buscar_subclasses(self, classe):
+        self.cursor.execute(f'SELECT nome_subclasse FROM subclasses INNER JOIN classes ON classes.id_classe = subclasses.id_classe WHERE nome_classe = "{classe}"')
+
+        info = []
+        consulta = self.cursor.fetchall()
+        for subclasse in consulta:
+            info.append(subclasse[0])
+
+        return '\n'.join(info)
+
     def visualizar_habs_raca(self, raca):
         """Visualiza as habilidades de uma raça específica.
 
