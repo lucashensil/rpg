@@ -18,14 +18,14 @@ class MyClient(discord.Client, Visualizacao):
         if message.content.startswith(f'!Raca'):
             global ultima_raca_solicitada
             nome = message.content.split(' ', 1)[1]
-            resposta1 = self.visu.visuzalizar_raca(nome)
-            await message.channel.send(resposta1)
+            raca = self.visu.visuzalizar_raca(raca)
+            await message.channel.send(raca)
             ultima_raca_solicitada = nome  
 
         if message.content.startswith(f'!Habilidades'):
             if ultima_raca_solicitada:  
-                resposta2 = self.visu.visualizar_habs_raca(ultima_raca_solicitada)
-                await message.channel.send(resposta2)
+                habilidades = self.visu.visualizar_habs_raca(ultima_raca_solicitada)
+                await message.channel.send(habilidades)
                 ultima_raca_solicitada = None  
             else:
                 await message.channel.send("Você não solicitou informações sobre nenhuma raça ainda.")
@@ -38,21 +38,21 @@ class MyClient(discord.Client, Visualizacao):
 
         if message.content.startswith(f'!Procurar Habilidade'):
             hab = message.content[len('!Procurar Habilidade '):]
-            resposta = self.visu.buscar_habilidade(hab)
-            resposta2 = self.visu.buscar_habilidade_subraca(hab)
-            if resposta:
-                await message.channel.send(resposta)
+            racas = self.visu.buscar_habilidade(hab)
+            subracas = self.visu.buscar_habilidade_subraca(hab)
+            if racas:
+                await message.channel.send(racas)
             else:
                 await message.channel.send('Habilidade não encontrada em nenhuma raça')
-            if resposta2:
-                await message.channel.send(resposta2)
-            elif not resposta and not resposta2:
+            if subracas:
+                await message.channel.send(subracas)
+            elif not racas and not subracas:
                 await message.channel.send('Habilidade não encontrada em nenhuma sub-raça')
 
         if message.content.startswith(f'!Classe'):
-            classe = message.content.split(' ', 1)[1]
-            resposta = self.visu.visualizar_classe(classe)
-            await message.channel.send(resposta)
+            nome = message.content.split(' ', 1)[1]
+            classe = self.visu.visualizar_classe(nome)
+            await message.channel.send(classe)
 
 
 
