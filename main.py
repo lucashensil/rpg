@@ -45,11 +45,12 @@ class Visualizacao():
             atr2 = ''
             mod2 = ''
 
+        if subracas != '':
+            subracas = f'Sub-Raças: {subracas}\n'
         t = f'''
 Raça: {raca}
 {atr1} +{mod1} {atr2} {mod2}
-Sub-Raças: {subracas}
-
+{subracas}
 Descrição: {desc}
 
 Idade: {idade}

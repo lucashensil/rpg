@@ -18,9 +18,13 @@ class MyClient(discord.Client, Visualizacao):
         if message.content.startswith(f'!Raca'):
             global ultima_raca_solicitada
             nome = message.content.split(' ', 1)[1]
-            raca = self.visu.visuzalizar_raca(raca)
+            raca = self.visu.visuzalizar_raca(nome)
             await message.channel.send(raca)
             ultima_raca_solicitada = nome  
+
+        if message.content.startswith(f'!Subracas'):
+            subraca = self.visu.buscar_subraca(ultima_raca_solicitada)
+            await message.channel.send(subraca)
 
         if message.content.startswith(f'!Habilidades'):
             if ultima_raca_solicitada:  
