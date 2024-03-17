@@ -7,7 +7,7 @@ class Visualizacao():
 
         self.cursor = self.conn.cursor()
 
-    def visuzalizar_raca(self, raca_nome):
+    def visualizar_raca(self, raca_nome):
         """Visualiza as informações de uma raça específica.
 
         Args:
@@ -77,6 +77,37 @@ Habilidades Raciais: {hab}
 
         info = ', '.join(infos)
         return info
+
+    def visualizar_subraca(self, subraca):
+
+        self.cursor.execute(f'''SELECT 
+                    descricao,
+                    hab_subraca
+                    FROM subracas WHERE nome_subraca = "{subraca}" ''')
+
+        info = self.cursor.fetchall()
+
+        # desc, idade, vel, alinhamento, med, hab, atr1, mod1 = info[0][1:9]
+        desc, hab_subraca = info[0]
+
+        # if len(info) > 1:
+        #     atr2, mod2 = info[1][7:9]
+        #     mod1 = str(mod1) + ','
+        #     mod2 = '+' + str(mod2)
+        # else:
+        #     atr2 = ''
+        #     mod2 = ''
+
+
+        t = f'''
+Raça: {subraca}
+
+Descrição: {desc}
+
+Habilidades Específicas: {hab_subraca}
+        '''
+
+        return t
 
     def buscar_atributo(self, atributo):
         """Busca as raças que possuem um atributo específico.
@@ -288,15 +319,15 @@ Sub-Classes:
         return t
     
     def visualizar_habs_subraca(self, subraca):
-        self.cursor.execute(''' SELECT id_subraca, nome_subraca FROM subracas''')
+        self.cursor.execute('''SELECT id_subraca, nome_subraca FROM subracas''')
         ids = self.cursor.fetchall()
         for id_ in ids:
             id_certo = id_[0]
             nome = id_[1]
             if nome == subraca:
                 self.cursor.execute(f''' SELECT nome_recurso, descricao
-                                    FROM recursos_subracas
-                                    WHERE id_subraca = {id_certo} ''')
+                FROM recursos_subracas
+                WHERE id_subraca = {id_certo} ''')
                 
                 info = self.cursor.fetchall()
 
@@ -310,3 +341,5 @@ Sub-Classes:
             msgs.append(msg)
 
         t = '\n\n'.join(msgs)
+
+        return t

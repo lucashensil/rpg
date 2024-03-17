@@ -21,23 +21,29 @@ class MyClient(discord.Client, Visualizacao):
             global ultima_subraca_solicitada
             
             nome = message.content.split(' ', 1)[1]
-            raca = self.visu.visuzalizar_raca(nome)
+            raca = self.visu.visualizar_raca(nome)
             await message.channel.send(raca)
             ultima_raca_solicitada = nome  
 
         if message.content.startswith(f'!Subracas'): # Mostra todas as Sub-racas
             subraca = self.visu.buscar_subraca(ultima_raca_solicitada)
             await message.channel.send(subraca)
-            ultima_subraca_solicitada = subraca 
 
-        if message.content.startswith(f'!Habilidades'):
-            if ultima_raca_solicitada:  
+        if message.content.startswith(f'!Subraca'): # Mostra apenas uma sub-raca espeficia
+            nome = message.content.split(' ', 1)[1]
+            subraca = self.visu.visualizar_subraca(nome)
+            await message.channel.send(subraca)
+            ultima_subraca_solicitada = nome 
+
+        if message.content.startswith(f'!Habilidades Sub'): # Habilidades sub-raca
+            if ultima_subraca_solicitada:
                 habilidades = self.visu.visualizar_habs_subraca(ultima_subraca_solicitada)
                 await message.channel.send(habilidades)
+                ultima_subraca_solicitada = None
             else:
-                await message.channel.send("Você não solicitou informações sobre nenhuma raça ainda.")
+                await message.channel.send("Você não solicitou informações sobre nenhuma sub-raça ainda.")
 
-        if message.content.startswith(f'!Habilidades'):
+        if message.content.startswith(f'!Habilidades'): # Habilidades Raca
             if ultima_raca_solicitada:  
                 habilidades = self.visu.visualizar_habs_raca(ultima_raca_solicitada)
                 await message.channel.send(habilidades)
