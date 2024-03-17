@@ -5,6 +5,7 @@ from main import Visualizacao
 from credencias import token
 
 ultima_raca_solicitada = None  # Variável para armazenar o nome da última raça solicitada
+ultima_subraca_solicitada = None  # Variável para armazenar o nome da última sub-raça solicitada
 
 class MyClient(discord.Client, Visualizacao):
     async def on_ready(self):
@@ -17,14 +18,24 @@ class MyClient(discord.Client, Visualizacao):
 
         if message.content.startswith(f'!Raca'):
             global ultima_raca_solicitada
+            global ultima_subraca_solicitada
+            
             nome = message.content.split(' ', 1)[1]
             raca = self.visu.visuzalizar_raca(nome)
             await message.channel.send(raca)
             ultima_raca_solicitada = nome  
 
-        if message.content.startswith(f'!Subracas'):
+        if message.content.startswith(f'!Subracas'): # Mostra todas as Sub-racas
             subraca = self.visu.buscar_subraca(ultima_raca_solicitada)
             await message.channel.send(subraca)
+            ultima_subraca_solicitada = subraca 
+
+        if message.content.startswith(f'!Habilidades'):
+            if ultima_raca_solicitada:  
+                habilidades = self.visu.visualizar_habs_subraca(ultima_subraca_solicitada)
+                await message.channel.send(habilidades)
+            else:
+                await message.channel.send("Você não solicitou informações sobre nenhuma raça ainda.")
 
         if message.content.startswith(f'!Habilidades'):
             if ultima_raca_solicitada:  
