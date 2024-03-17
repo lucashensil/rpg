@@ -270,6 +270,7 @@ Sub-Classes:
                 self.cursor.execute(f''' SELECT nome_recurso, descricao
                                     FROM recursos_racas 
                                     WHERE id_raca = {id_certo} ''')
+                
                 info = self.cursor.fetchall()
 
         msgs = []
