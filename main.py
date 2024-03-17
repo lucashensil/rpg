@@ -32,13 +32,13 @@ class Visualizacao():
                             INNER JOIN atributos_raciais 
                             ON racas.id_raca = atributos_raciais.id_raca WHERE nome_raca = "{raca}"''')
 
-        info = self.cursor.fetchall()
+        consulta = self.cursor.fetchall()
 
-        desc, idade, vel, alinhamento, med, hab, atr1, mod1 = info[0][1:9]
+        desc, idade, vel, alinhamento, tamanho, hab, atr1, mod1 = consulta[0][1:9]
         subracas = self.buscar_subraca(raca_nome)
 
-        if len(info) > 1:
-            atr2, mod2 = info[1][7:9]
+        if len(consulta) > 1:
+            atr2, mod2 = consulta[1][7:9]
             mod1 = str(mod1) + ','
             mod2 = '+' + str(mod2)
         else:
@@ -47,7 +47,8 @@ class Visualizacao():
 
         if subracas != '':
             subracas = f'Sub-Raças: {subracas}\n'
-        t = f'''
+
+        msg = f'''
 Raça: {raca}
 {atr1} +{mod1} {atr2} {mod2}
 {subracas}
@@ -59,24 +60,24 @@ Velocidade: {vel}
 
 Alinhamento: {alinhamento}
 
-Tamanho: {med}
+Tamanho: {tamanho}
 
 Habilidades Raciais: {hab}
         '''
 
-        return t
+        return msg
     
     def buscar_subraca(self, raca):
         self.cursor.execute(f'SELECT nome_subraca FROM subracas INNER JOIN racas on subracas.id_raca = racas.id_raca WHERE nome_raca = "{raca}"')
 
-        subracas = self.cursor.fetchall()
-        infos = []
-        for sub in subracas:
-            t = f'{sub[0]}'
-            infos.append(t)
+        consulta = self.cursor.fetchall()
+        subracas = []
+        for subraca in consulta:
+            t = f'{subraca[0]}'
+            subracas.append(t)
 
-        info = ', '.join(infos)
-        return info
+        msg = ', '.join(subracas)
+        return msg
 
     def visualizar_subraca(self, subraca):
 
@@ -170,7 +171,6 @@ Habilidades Específicas: {hab_subraca}
         """
         self.cursor.execute('SELECT nome_raca, hab_raciais FROM racas')
 
-        lista_habs = []
         infos = []
         consulta = self.cursor.fetchall()
         for habs in consulta:
@@ -184,9 +184,9 @@ Habilidades Específicas: {hab_subraca}
 
         
 
-        info = '\n'.join(infos)
+        msg = '\n'.join(infos)
 
-        return info
+        return msg
     
     def buscar_habilidade_subraca(self, hab_procurada):
         self.cursor.execute('SELECT nome_subraca, hab_subraca FROM subracas')
