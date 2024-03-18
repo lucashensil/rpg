@@ -68,6 +68,14 @@ Habilidades Raciais: {hab}
         return msg
     
     def buscar_subraca(self, raca):
+        """Busca e retorna as sub-raças associadas a uma raça específica.
+
+    Args:
+        raca (str): O nome da raça principal para a qual as sub-raças serão buscadas.
+
+    Returns:
+        str: Uma string contendo os nomes das sub-raças separados por vírgula, se existirem.
+    """
         self.cursor.execute(f'SELECT nome_subraca FROM subracas INNER JOIN racas on subracas.id_raca = racas.id_raca WHERE nome_raca = "{raca}"')
 
         consulta = self.cursor.fetchall()
@@ -80,7 +88,13 @@ Habilidades Raciais: {hab}
         return msg
 
     def visualizar_subraca(self, subraca):
+        """Visualiza as informações de uma sub-raça específica.
 
+    Args:
+        subraca (str): O nome da sub-raça a ser visualizada.
+
+    Returns:
+        str: Uma string formatada contendo as informações da sub-raça. """
         self.cursor.execute(f'''SELECT 
                     descricao,
                     hab_subraca
@@ -189,6 +203,14 @@ Habilidades Específicas: {hab_subraca}
         return msg
     
     def buscar_habilidade_subraca(self, hab_procurada):
+        """Busca sub-raças que possuem uma habilidade específica.
+
+    Args:
+        hab_procurada (str): A habilidade a ser procurada.
+
+    Returns:
+        str: Uma string contendo as sub-raças e habilidades correspondentes encontradas.
+    """
         self.cursor.execute('SELECT nome_subraca, hab_subraca FROM subracas')
 
 
@@ -274,6 +296,14 @@ Sub-Classes:
         return t
     
     def buscar_subclasses(self, classe):
+        """Busca e retorna as sub-classes associadas a uma classe específica.
+
+    Args:
+        classe (str): O nome da classe principal para a qual as sub-classes serão buscadas.
+
+    Returns:
+        str: Uma string contendo os nomes das sub-classes, separados por quebra de linha.
+    """
         self.cursor.execute(f'SELECT nome_subclasse FROM subclasses INNER JOIN classes ON classes.id_classe = subclasses.id_classe WHERE nome_classe = "{classe}"')
 
         info = []
@@ -281,7 +311,8 @@ Sub-Classes:
         for subclasse in consulta:
             info.append(subclasse[0])
 
-        return '\n'.join(info)
+        resultado = '\n'.join(info)
+        return resultado
 
     def visualizar_habs_raca(self, raca):
         """Visualiza as habilidades de uma raça específica.
@@ -319,6 +350,14 @@ Sub-Classes:
         return t
     
     def visualizar_habs_subraca(self, subraca):
+        """Visualiza os recursos associados a uma sub-raça específica.
+
+    Args:
+        subraca (str): O nome da sub-raça para a qual os recursos serão visualizados.
+
+    Returns:
+        str: Uma string formatada contendo os recursos e suas descrições.
+    """
         self.cursor.execute('''SELECT id_subraca, nome_subraca FROM subracas''')
         ids = self.cursor.fetchall()
         for id_ in ids:
