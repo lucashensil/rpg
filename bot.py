@@ -16,7 +16,7 @@ class MyClient(discord.Client, Visualizacao):
         if message.author == self.user:
             return
 
-        if message.content.startswith(f'!Raca'):
+        if message.content.startswith(f'!Raca'): # Mostra todas as Racas
             global ultima_raca_solicitada
             global ultima_subraca_solicitada
             
@@ -35,7 +35,7 @@ class MyClient(discord.Client, Visualizacao):
             await message.channel.send(subraca)
             ultima_subraca_solicitada = nome 
 
-        if message.content.startswith(f'!Habilidades Sub'): # Habilidades sub-raca
+        if message.content.startswith(f'!Sub Habilidades'): # Habilidades sub-raca
             if ultima_subraca_solicitada:
                 habilidades = self.visu.visualizar_habs_subraca(ultima_subraca_solicitada)
                 await message.channel.send(habilidades)
@@ -52,12 +52,12 @@ class MyClient(discord.Client, Visualizacao):
                 await message.channel.send("Você não solicitou informações sobre nenhuma raça ainda.")
 
 
-        if message.content.startswith(f'!Atributo'):
+        if message.content.startswith(f'!Atributo'): # Busca racas com o atributo especifico
             atr = message.content.split(' ', 1)[1]
             resposta = self.visu.buscar_atributo(atr)
             await message.channel.send(resposta)
 
-        if message.content.startswith(f'!Procurar Habilidade'):
+        if message.content.startswith(f'!Procurar Habilidade'): # Procura racas com a habilidade especifica
             hab = message.content[len('!Procurar Habilidade '):]
             racas = self.visu.buscar_habilidade(hab)
             subracas = self.visu.buscar_habilidade_subraca(hab)
@@ -70,7 +70,7 @@ class MyClient(discord.Client, Visualizacao):
             elif not racas and not subracas:
                 await message.channel.send('Habilidade não encontrada em nenhuma sub-raça')
 
-        if message.content.startswith(f'!Classe'):
+        if message.content.startswith(f'!Classe'): # Mostra as informacoes de uma classe
             nome = message.content.split(' ', 1)[1]
             classe = self.visu.visualizar_classe(nome)
             await message.channel.send(classe)
