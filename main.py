@@ -100,13 +100,13 @@ Habilidades Raciais: {hab}
                     hab_subraca
                     FROM subracas WHERE nome_subraca = "{subraca}" ''')
 
-        info = self.cursor.fetchall()
+        consulta = self.cursor.fetchall()
 
-        # desc, idade, vel, alinhamento, med, hab, atr1, mod1 = info[0][1:9]
-        desc, hab_subraca = info[0]
+        # desc, idade, vel, alinhamento, med, hab, atr1, mod1 = consulta[0][1:9]
+        desc, hab_subraca = consulta[0]
 
         # if len(info) > 1:
-        #     atr2, mod2 = info[1][7:9]
+        #     atr2, mod2 = consulta[1][7:9]
         #     mod1 = str(mod1) + ','
         #     mod2 = '+' + str(mod2)
         # else:
@@ -114,7 +114,7 @@ Habilidades Raciais: {hab}
         #     mod2 = ''
 
 
-        t = f'''
+        msg = f'''
 Raça: {subraca}
 
 Descrição: {desc}
@@ -122,7 +122,7 @@ Descrição: {desc}
 Habilidades Específicas: {hab_subraca}
         '''
 
-        return t
+        return msg
 
     def buscar_atributo(self, atributo):
         """Busca as raças que possuem um atributo específico.
@@ -193,8 +193,8 @@ Habilidades Específicas: {hab_subraca}
             if hab_procurada in habilidades:
                 habilidades.remove(hab_procurada)
                 habilidades.insert(0, hab_procurada)
-                t = f''' Raça: {raca}, Habilidades: {', '.join(habilidades)} '''
-                infos.append(t)
+                string = f''' Raça: {raca}, Habilidades: {', '.join(habilidades)} '''
+                infos.append(string)
 
         
 
@@ -222,12 +222,12 @@ Habilidades Específicas: {hab_subraca}
             if hab_procurada in habilidades:
                 habilidades.remove(hab_procurada)
                 habilidades.insert(0, hab_procurada)
-                t = f''' Raça: {subraca}, Habilidades: {', '.join(habilidades)} '''
-                infos.append(t)
+                string = f''' Raça: {subraca}, Habilidades: {', '.join(habilidades)} '''
+                infos.append(string)
 
-        info = '\n'.join(infos)
+        msg = '\n'.join(infos)
 
-        return info
+        return msg
     
     def visualizar_classe(self, classe):
         """Visualiza as informações de uma classe específica.
@@ -251,13 +251,13 @@ Habilidades Específicas: {hab_subraca}
                      ''')
 
 
-        info = self.cursor.fetchall()[0]
-        id_classe = info[0]
-        descricao = info[1]
-        dados_vida = info[2]
-        pontos_vida = info[3]
-        vida_superior = info[4]
-        proficiencias = info[5]
+        consulta = self.cursor.fetchall()[0]
+        id_classe = consulta[0]
+        descricao = consulta[1]
+        dados_vida = consulta[2]
+        pontos_vida = consulta[3]
+        vida_superior = consulta[4]
+        proficiencias = consulta[5]
 
         proficiencias = proficiencias.split(';')
         p_armadura = proficiencias[0]
@@ -266,10 +266,10 @@ Habilidades Específicas: {hab_subraca}
         p_resistencias = proficiencias[3]
         p_pericias = proficiencias[4]
 
-        equipamento = info[6]
+        equipamento = consulta[6]
 
 
-        t = f''' 
+        msg = f''' 
 Classe: {classe}
 
 Descrição: 
@@ -293,7 +293,7 @@ Sub-Classes:
 {self.buscar_subclasses(classe)}
  '''
         
-        return t
+        return msg
     
     def buscar_subclasses(self, classe):
         """Busca e retorna as sub-classes associadas a uma classe específica.
@@ -344,10 +344,10 @@ Sub-Classes:
             msg = f'''{hab}: {desc}'''
             msgs.append(msg)
 
-        t = '\n\n'.join(msgs)
+        resultado = '\n\n'.join(msgs)
 
 
-        return t
+        return resultado
     
     def visualizar_habs_subraca(self, subraca):
         """Visualiza os recursos associados a uma sub-raça específica.
@@ -379,6 +379,6 @@ Sub-Classes:
             msg = f'''{hab}: {desc}'''
             msgs.append(msg)
 
-        t = '\n\n'.join(msgs)
+        resultado = '\n\n'.join(msgs)
 
-        return t
+        return resultado
