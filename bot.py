@@ -4,12 +4,13 @@ from discord.ext import commands
 from main import Visualizacao
 from credencias import token
 
-ultima_raca_solicitada = None  # Variável para armazenar o nome da última raça solicitada
-ultima_subraca_solicitada = None  # Variável para armazenar o nome da última sub-raça solicitada
 
 class MyClient(discord.Client, Visualizacao):
     async def on_ready(self):
         self.visu = Visualizacao()
+        self.ultima_raca_solicitada = None  # Variável para armazenar o nome da última raça solicitada
+        self.ultima_subraca_solicitada = None  # Variável para armazenar o nome da última sub-raça solicitada
+
         print('Logged on as', self.user)
 
     async def on_message(self, message):
@@ -17,29 +18,27 @@ class MyClient(discord.Client, Visualizacao):
             return
 
         if message.content.startswith(f'!Raca'): # Mostra todas as Racas
-            global ultima_raca_solicitada
-            global ultima_subraca_solicitada
             
             nome = message.content.split(' ', 1)[1]
             raca = self.visu.visualizar_raca(nome)
             await message.channel.send(raca)
-            ultima_raca_solicitada = nome  
+            self.ultima_raca_solicitada = nome  
 
         if message.content.startswith(f'!Subracas'): # Mostra todas as Sub-racas
-            subraca = self.visu.buscar_subraca(ultima_raca_solicitada)
+            subraca = self.visu.buscar_subraca(self.ultima_raca_solicitada)
             await message.channel.send(subraca)
 
         if message.content.startswith(f'!Subraca'): # Mostra apenas uma sub-raca espeficia
             nome = message.content.split(' ', 1)[1]
             subraca = self.visu.visualizar_subraca(nome)
             await message.channel.send(subraca)
-            ultima_subraca_solicitada = nome 
+            self.ultima_subraca_solicitada = nome 
 
         if message.content.startswith(f'!Sub Habilidades'): # Habilidades sub-raca
-            if ultima_subraca_solicitada:
-                habilidades = self.visu.visualizar_habs_subraca(ultima_subraca_solicitada)
+            if self.ultima_subraca_solicitada:
+                habilidades = self.visu.visualizar_habs_subraca(self.ultima_subraca_solicitada)
                 await message.channel.send(habilidades)
-                ultima_subraca_solicitada = None
+                self.ultima_subraca_solicitada = None
             else:
                 await message.channel.send("Você não solicitou informações sobre nenhuma sub-raça ainda.")
 
