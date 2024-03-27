@@ -5,6 +5,7 @@ from main import Visualizacao
 from credencias import token
 
 
+
 class MyClient(discord.Client, Visualizacao):
     async def on_ready(self):
         self.visu = Visualizacao()
@@ -74,6 +75,14 @@ class MyClient(discord.Client, Visualizacao):
             classe = self.visu.visualizar_classe(nome)
             await message.channel.send(classe)
 
+        if message.content.startswith(f'!img'): 
+            classe = message.content.split(' ', 1)[1]
+            caminho = self.visu.visualizar_imagem_classe(classe)
+            with open(caminho, 'rb') as file:
+                picture = discord.File(file)
+                
+            # Envie a imagem para o canal onde a mensagem foi recebida
+            await message.channel.send(file=picture)
 
 
 

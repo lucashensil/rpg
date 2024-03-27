@@ -295,7 +295,9 @@ Sub-Classes:
         
         return msg
     
-   
+    def visualizar_imagem_classe(self, classe):
+        caminho_pasta = f'imagens\classes\{classe.lower()}.png'
+        return caminho_pasta      
 
     def buscar_subclasses(self, classe):
         """Busca e retorna as sub-classes associadas a uma classe específica.
