@@ -3,7 +3,6 @@ import asyncio
 from discord.ext import commands
 from main import Visualizacao
 from credencias import token
-import io
 
 
 class MyClient(discord.Client, Visualizacao):
@@ -74,6 +73,7 @@ class MyClient(discord.Client, Visualizacao):
             nome = message.content.split(' ', 1)[1]
             classe = self.visu.visualizar_classe(nome)
             await message.channel.send(classe)
+
 
 
 

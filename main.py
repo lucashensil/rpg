@@ -1,5 +1,4 @@
 import sqlite3
-import io
 
 
 class Visualizacao():
@@ -7,7 +6,6 @@ class Visualizacao():
         self.conn = sqlite3.connect('rpg.db')
 
         self.cursor = self.conn.cursor()
-
 
     def visualizar_raca(self, raca_nome):
         """Visualiza as informações de uma raça específica.
@@ -297,6 +295,8 @@ Sub-Classes:
         
         return msg
     
+   
+
     def buscar_subclasses(self, classe):
         """Busca e retorna as sub-classes associadas a uma classe específica.
 
